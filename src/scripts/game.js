@@ -1,12 +1,17 @@
+import Hero from "./models/hero.js";
+
 export default class Game{
     constructor(canvasWidth, canvasHeight){
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
+        this.hero = new Hero(canvasWidth, canvasHeight);
     }
 
-    update(){}
+    update(deltaTime){
+        this.hero.update(deltaTime);
+    }
 
     draw(ctx){
-        ctx.drawImage(marioImg, 0, 0, 30, 40, 100, 100, 120, 160);
+        this.hero.draw(ctx);
     }
 }

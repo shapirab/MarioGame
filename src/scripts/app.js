@@ -8,11 +8,15 @@ let ctx = canvas.getContext('2d');
 
 let game = new Game(canvas.width, canvas.height);
 
-function animate(){
+let lastTime = 0;
+function animate(timeStamp){
     requestAnimationFrame(animate);
-    game.update();
+    let deltaTime = timeStamp - lastTime;
+        lastTime = timeStamp;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    game.update(deltaTime);
     game.draw(ctx);
 
 }
 
-animate();
+animate(0);

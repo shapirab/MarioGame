@@ -9,3 +9,9 @@ NicePng_mario-sprite-png_8911174 Dimensions: 600x900 px
 	width: 600/27 = 20
 
 CanvasDrawImage.drawImage(image: CanvasImageSource, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number)
+
+Hero.img:
+width: 4946px
+height: 4775px
+6 columns
+3 rows
