@@ -16,19 +16,12 @@ export default class Hero{
         this.sizeFactor = 2.5;
         this.width = 641;
         this.height = 542;
-
-        
+       
         this.ground = this.canvasHeight - (this.height / this.sizeFactor);
         this.position = {
             x: 100,
             y: this.ground
         }
-        console.log('ground location: ')
-        console.log(this.ground);
-        console.log(this.onGround());
-        console.log('canvas height: ')
-        console.log(this.canvasHeight);
-
     }
 
     onGround(){
@@ -56,10 +49,6 @@ export default class Hero{
     }
 
     draw(ctx){
-        // ctx.drawImage(marioImg, this.frameX * this.heroWidth, 0 * this.heroHeight, 
-        //     this.heroWidth, this.heroHeight, 
-        //     100, this.canvasHeight - this.heroHeight, 
-        //     this.heroWidth, this.heroHeight);
         ctx.drawImage(this.image, this.position.x, this.position.y, this.image.width, this.image.height);
     }
 }
