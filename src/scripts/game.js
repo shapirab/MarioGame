@@ -6,7 +6,7 @@ export default class Game{
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
         this.hero = new Hero(canvasWidth, canvasHeight);
-        this.ramp = new Ramp(canvasWidth, canvasHeight);
+        this.ramp = new Ramp(canvasWidth, canvasHeight, this.hero);
     }
 
     update(deltaTime){
