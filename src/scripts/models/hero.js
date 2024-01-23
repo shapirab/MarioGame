@@ -22,6 +22,10 @@ export default class Hero{
             x: 100,
             y: this.ground
         }
+        this.velocity = {
+            x: 0,
+            y: 0
+        }
     }
 
     onGround(){
@@ -46,6 +50,9 @@ export default class Hero{
         this.image.src = `../images/hero/Adventure Girl/png/Run (${this.imageCounter}).png`;
         this.image.width = this.width / this.sizeFactor;
         this.image.height = this.height / this.sizeFactor;
+
+        this.position.x += this.velocity.x;
+        this.position.y -= this.velocity.y;
     }
 
     draw(ctx){
