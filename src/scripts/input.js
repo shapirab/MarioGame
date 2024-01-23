@@ -24,11 +24,9 @@ export default class Input{
                     this.keys.down.pressed = true;
                     break;
                 case 'ArrowRight':
-                    console.log('ArrowRight pressed');
                     this.keys.right.pressed = true;
                     break;
                 case 'ArrowLeft':
-                    console.log('ArrowLeft pressed');
                     this.keys.left.pressed = true;
                     break;
             }

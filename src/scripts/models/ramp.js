@@ -15,24 +15,36 @@ export default class Ramp{
             y: this.randomHeight
         }
 
+        this.velocity = {
+            x: 0,
+            y: 0
+        }
+
         this.framesPerSecond = 130;
         this.frameInterval = 1000 / this.framesPerSecond;
         this.frameTimer = 0;
+
+        this.setPositionY();
     }
 
     update(deltaTime){       
-        if(this.frameTimer > this.frameInterval){
-            if(this.position.x < 0 - this.width / this.sizeFactor){
-                this.setPositionY();
-                this.position.x = this.canvasWidth;                                             
-            }
-            else{
-                this.position.x -= deltaTime;
-            }
-            this.frameTimer = 0;
-        }
-        else{
-            this.frameTimer += deltaTime;
+        // if(this.frameTimer > this.frameInterval){
+        //     if(this.position.x < 0 - this.width / this.sizeFactor){
+        //         this.setPositionY();
+        //         this.position.x = this.canvasWidth;                                             
+        //     }
+        //     else{
+        //         this.position.x -= deltaTime;
+        //     }
+        //     this.frameTimer = 0;
+        // }
+        // else{
+        //     this.frameTimer += deltaTime;
+        // }
+        this.position.x += this.velocity.x;
+        if(this.position.x < -this.width){
+            this.setPositionY();
+            this.position.x = this.canvasWidth;
         }
     }
 
@@ -44,19 +56,6 @@ export default class Ramp{
     setPositionY(){
         this.randomHeight = this.getRandomHeight();
         this.position.y = this.randomHeight;
-    //     console.log('player height: ' + this.height);
-    //     console.log('random height: ' + this.randomHeight);
-        
-    //      if(this.randomHeight < 0){
-    //        this.position.y = 50;
-    //        console.log('too high')
-    //    }
-    //    else if(this.randomHeight > this.height){
-    //     console.log('too low');
-    //    }
-    //    else{
-    //        this.position.y = this.randomHeight;
-    //    }
     }
 
     getRandomHeight(){
