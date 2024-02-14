@@ -14,7 +14,7 @@ export default class Game {
   }
 
   update(deltaTime) {
-    this.hero.update(deltaTime);
+    this.hero.update(deltaTime, this.input);
     this.ramp.update(deltaTime);
 
     if (this.input.keys.right.pressed) {

@@ -1,3 +1,5 @@
+import { RunningLeft, RunningRight, StandingLeft, StandingRight } from "../state.js";
+
 export default class Hero{
     constructor(canvasWidth, canvasHeight){
         this.canvasWidth = canvasWidth;
@@ -26,30 +28,44 @@ export default class Hero{
             x: 0,
             y: 0
         }
+
+        this.states = [ new StandingRight(this), new RunningRight(this), 
+            new StandingLeft(this), new RunningLeft(this)];
+        this.currentState = this.states[0];
+        this.currentState.enter();
+    }
+
+    setState(state){
+        this.currentState = this.states[state];
+        this.currentState.enter();
     }
 
     onGround(){
         return this.position.y === this.ground;
     }
 
-    update(deltaTime){
+    update(deltaTime, input){
+        this.currentState.handleInputs(input);
+        this.currentState.enter();
+        console.log('this.currentState: ');
+        console.log(this.currentState);
         if(this.frameTimer > this.frameInterval){
             if(this.imageCounter >= this.maxImages){
                 this.imageCounter = 1;
             }
             else{
                 this.imageCounter++;
-            }
+            }            
             this.frameTimer = 0;
         }
         else{
             this.frameTimer += deltaTime;
         }
         
-        this.image = new Image();
-        this.image.src = `../images/hero/Adventure Girl/png/Run (${this.imageCounter}).png`;
-        this.image.width = this.width / this.sizeFactor;
-        this.image.height = this.height / this.sizeFactor;
+        // this.image = new Image();
+        // this.image.src = `../images/hero/Adventure Girl/png/Run (${this.imageCounter}).png`;
+        // this.image.width = this.width / this.sizeFactor;
+        // this.image.height = this.height / this.sizeFactor;
 
         this.position.x += this.velocity.x;
         this.position.y -= this.velocity.y;
