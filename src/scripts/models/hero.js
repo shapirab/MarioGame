@@ -5,6 +5,7 @@ export default class Hero{
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
         
+        
         //this determains the frequency of changing of frames, thus
         //extablishing the running pace
         this.framesPerSecond = 10;
@@ -12,8 +13,19 @@ export default class Hero{
         this.frameTimer = 0;
 
         this.imageCounter = 1;
-        this.maxImages = 8;
+        this.maxRunningImages = 8;
         this.imageName = `marioImg_${this.imageCounter}`;
+
+        this.runningRightImages = [];
+        this.runningLeftImages = [];
+        this.standingLeftImages = [];
+        this.standingRightImages = [];
+
+        this.maxStandingImages = 10;
+        this.loadRunningRightImages();
+        this.loadRunningLeftImages();
+        this.loadStandingRightImages();
+        this.loadStandingLeftImages();
 
         this.sizeFactor = 2.5;
         this.width = 641;
@@ -33,6 +45,38 @@ export default class Hero{
             new StandingLeft(this), new RunningLeft(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
+    }
+
+    loadRunningRightImages(){
+        for (let i = 1; i <= this.maxRunningImages; i++) {
+            const image = new Image();
+            image.src = `../images/hero/Adventure Girl/png/Run (${i}).png`;
+            this.runningRightImages.push(image);
+        }
+    }
+
+    loadRunningLeftImages(){
+        for (let i = 1; i <= this.maxRunningImages; i++) {
+            const image = new Image();
+            image.src = `../images/hero/Adventure Girl/png/RunLeft(${i}).png`;
+            this.runningLeftImages.push(image);
+        }
+    }
+
+    loadStandingRightImages(){
+        for (let i = 1; i <= this.maxStandingImages; i++) {
+            const image = new Image();
+            image.src = `../images/hero/Adventure Girl/png/Idle (${i}).png`;
+            this.standingRightImages.push(image);
+        }
+    }
+
+    loadStandingLeftImages(){
+        for (let i = 1; i <= this.maxStandingImages; i++) {
+            const image = new Image();
+            image.src = `../images/hero/Adventure Girl/png/IdleLeft(${i}).png`;
+            this.standingLeftImages.push(image);
+        }  
     }
 
     setState(state){
@@ -61,11 +105,6 @@ export default class Hero{
         else{
             this.frameTimer += deltaTime;
         }
-        
-        // this.image = new Image();
-        // this.image.src = `../images/hero/Adventure Girl/png/Run (${this.imageCounter}).png`;
-        // this.image.width = this.width / this.sizeFactor;
-        // this.image.height = this.height / this.sizeFactor;
 
         this.position.x += this.velocity.x;
         this.position.y -= this.velocity.y;
