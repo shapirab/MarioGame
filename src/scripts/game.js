@@ -17,34 +17,37 @@ export default class Game {
     this.hero.update(deltaTime, this.input);
     this.ramp.update(deltaTime);
 
-    if (this.input.keys.right.pressed) {
-        if (this.hero.position.x < this.maxVerticalWidth) {
-            this.hero.velocity.x = this.verticalSpeedConstant;
-        }
-        else{
-            this.hero.velocity.x = 0;
-            this.ramp.velocity.x = -this.verticalSpeedConstant;
-        }
+    // if (this.input.keys.right.pressed) {
+    //     if (this.hero.position.x < this.maxVerticalWidth) {
+    //         this.hero.velocity.x = this.verticalSpeedConstant;
+    //     }
+    //     else{
+    //         this.hero.velocity.x = 0;
+    //         this.ramp.velocity.x = -this.verticalSpeedConstant;
+    //     }
 
-    } else if (this.input.keys.left.pressed) {
-        if (this.hero.position.x > 0) {
-            this.hero.velocity.x = -this.verticalSpeedConstant;
-        }
-        else{
-            this.hero.velocity.x = 0;
-        }
+    // } else if (this.input.keys.left.pressed) {
+    //     if (this.hero.position.x > 0) {
+    //         this.hero.velocity.x = -this.verticalSpeedConstant;
+    //     }
+    //     else{
+    //         this.hero.velocity.x = 0;
+    //     }
 
-    } else {
-        this.hero.velocity.x = 0;
-        this.ramp.velocity.x = 0;
-    }
+    // } else {
+    //     this.hero.velocity.x = 0;
+    //     this.ramp.velocity.x = 0;
+    // }
 
-    if (this.input.keys.up.pressed) {
-      console.log("jumping up");
-    }
-    if (this.input.keys.down.pressed) {
-      console.log("sitting down");
-    }
+    // if (this.input.keys.up.pressed) {
+    //   this.hero.velocity.y = 8;
+    // }
+    // else{
+    //   this.hero.velocity.y = 0;
+    // }
+    // if (this.input.keys.down.pressed) {
+    //   console.log("sitting down");
+    // }
   }
 
   draw(ctx) {

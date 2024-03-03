@@ -2,7 +2,8 @@ const states = {
    STANDING_RIGHT: 0,
    RUNNING_RIGHT: 1,
    STANDING_LEFT: 2,
-   RUNNING_LEFT: 3
+   RUNNING_LEFT: 3,
+   JUMP_RIGHT: 4
 }
 
 class State{
@@ -29,6 +30,9 @@ export class RunningRight extends State{
       if(!input.keys.right.pressed){
          this.player.setState(states.STANDING_RIGHT);
       }
+      else if(input.keys.up.pressed){
+         this.player.setState(states.JUMP_RIGHT);
+      }
     }
  }
 
@@ -53,6 +57,9 @@ export class RunningRight extends State{
       else if(input.keys.left.pressed){
          this.player.setState(states.STANDING_LEFT);
       }
+      else if(input.keys.up.pressed){
+         this.player.setState(states.JUMP_RIGHT);
+      }
    }
 }
 export class RunningLeft extends State{
@@ -66,7 +73,7 @@ export class RunningLeft extends State{
         this.player.image.src = `../images/hero/Adventure Girl/png/RunLeft(${this.player.imageCounter}).png`;
         this.player.image.width = this.player.width / this.player.sizeFactor;
         this.player.image.height = this.player.height / this.player.sizeFactor;
-        this.player.maxImages = 8;
+        this.player.maxImages = 7;
     }
  
     handleInputs(input){
@@ -96,6 +103,30 @@ export class RunningLeft extends State{
       }
       else if(input.keys.right.pressed){
          this.player.setState(states.STANDING_RIGHT);
+      }
+   }
+}
+ export class JumpingRight extends State{
+   constructor(player){
+      super('JUMPING RIGHT');
+      this.player = player;
+   }
+
+   enter(){
+       this.player.image = new Image();
+       this.player.image.src = `../images/hero/Adventure Girl/png/jump (${this.player.imageCounter}).png`;
+       this.player.image.width = this.player.width / this.player.sizeFactor;
+       this.player.image.height = this.player.height / this.player.sizeFactor;
+       this.player.maxImages = 9;
+
+       if(this.player.onGround()){
+         this.player.velocity.y = -20;
+       }
+   }
+
+   handleInputs(input){
+      if(!input.keys.up.pressed){
+         this.player.setState(states.RUNNING_RIGHT);
       }
    }
 }
