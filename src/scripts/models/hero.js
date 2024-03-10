@@ -125,11 +125,11 @@ export default class Hero {
       this.frameTimer += deltaTime;
     }
 
-    this.jump(input);
+    this.jump();
     this.position.x += this.velocity.x;
   }
 
-  jump(input) {
+  jump(iput) {
     this.position.y += this.velocity.y;
 
     if(!this.onGround()){
@@ -138,16 +138,6 @@ export default class Hero {
     else{
         this.velocity.y = 0;
     }
-    // if (input.keys.up.pressed && this.onGround()) {
-    //   this.velocity.y += this.maxJump;
-    // }
-    // this.position.y -= this.velocity.y;
-
-    // if (!this.onGround()) {
-    //   this.velocity.y -= this.gravity;
-    // } else {
-    //   this.velocity.y = 0;
-    // }
   }
 
   draw(ctx) {

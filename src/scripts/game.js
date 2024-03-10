@@ -1,6 +1,7 @@
 import Hero from "./models/hero.js";
 import Ramp from "./models/ramp.js";
 import Input from "./input.js";
+import Layer from "./models/layer.js";
 
 export default class Game {
   constructor(canvasWidth, canvasHeight) {
@@ -11,47 +12,42 @@ export default class Game {
     this.input = new Input();
     this.verticalSpeedConstant = 5;
     this.maxVerticalWidth = 400;
+    this.layers = [];
+    this.createLayers();
+  }
+
+  createLayers() {
+    let layerNum = 8;
+    let counter = 1;
+    for (let i = layerNum; i > 0; i--) {
+      this.createLayer(i, counter, layerNum);
+      counter++;
+    }
+  }
+
+  createLayer(layerIdNum, counter, maxLayers) {
+    let layerId = `layer_${layerIdNum}`;
+    let speedBase = 10;
+    let speedFactorBase = 1 / maxLayers;
+    let speedFactor = speedFactorBase * counter;
+    let speed = Math.floor(speedBase * speedFactor);
+    let layer = new Layer(layerId, speed, this.canvasHeight);
+    this.layers.push(layer);
   }
 
   update(deltaTime) {
     this.hero.update(deltaTime, this.input);
     this.ramp.update(deltaTime);
 
-    // if (this.input.keys.right.pressed) {
-    //     if (this.hero.position.x < this.maxVerticalWidth) {
-    //         this.hero.velocity.x = this.verticalSpeedConstant;
-    //     }
-    //     else{
-    //         this.hero.velocity.x = 0;
-    //         this.ramp.velocity.x = -this.verticalSpeedConstant;
-    //     }
-
-    // } else if (this.input.keys.left.pressed) {
-    //     if (this.hero.position.x > 0) {
-    //         this.hero.velocity.x = -this.verticalSpeedConstant;
-    //     }
-    //     else{
-    //         this.hero.velocity.x = 0;
-    //     }
-
-    // } else {
-    //     this.hero.velocity.x = 0;
-    //     this.ramp.velocity.x = 0;
-    // }
-
-    // if (this.input.keys.up.pressed) {
-    //   this.hero.velocity.y = 8;
-    // }
-    // else{
-    //   this.hero.velocity.y = 0;
-    // }
-    // if (this.input.keys.down.pressed) {
-    //   console.log("sitting down");
-    // }
   }
 
   draw(ctx) {
+    this.layers.forEach((layer) => {
+      layer.update();
+      layer.draw(ctx);
+    });
     this.hero.draw(ctx);
     this.ramp.draw(ctx);
+
   }
 }
