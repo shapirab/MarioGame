@@ -1,9 +1,9 @@
 const states = {
    STANDING_RIGHT: 0,
    RUNNING_RIGHT: 1,
-   STANDING_LEFT: 2,
-   RUNNING_LEFT: 3,
-   JUMP_RIGHT: 4
+   // STANDING_LEFT: 2,
+   // RUNNING_LEFT: 3,
+   JUMP_RIGHT: 2
 }
 
 class State{

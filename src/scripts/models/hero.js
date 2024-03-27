@@ -1,8 +1,6 @@
 import {
   JumpingRight,
-  RunningLeft,
   RunningRight,
-  StandingLeft,
   StandingRight,
 } from "../state.js";
 
@@ -54,9 +52,7 @@ export default class Hero {
     this.states = [
       new StandingRight(this),
       new RunningRight(this),
-      new StandingLeft(this),
-      new RunningLeft(this),
-      new JumpingRight(this),
+      new JumpingRight(this)
     ];
     this.currentState = this.states[0];
     this.currentState.enter();
@@ -129,7 +125,7 @@ export default class Hero {
     this.position.x += this.velocity.x;
   }
 
-  jump(iput) {
+  jump() {
     this.position.y += this.velocity.y;
 
     if(!this.onGround()){

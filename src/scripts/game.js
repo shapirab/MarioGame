@@ -2,18 +2,27 @@ import Hero from "./models/hero.js";
 import Ramp from "./models/ramp.js";
 import Input from "./input.js";
 import Layer from "./models/layer.js";
+import { Worm } from "./models/enemies.js";
 
 export default class Game {
   constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    
     this.hero = new Hero(canvasWidth, canvasHeight);
     this.ramp = new Ramp(canvasWidth, canvasHeight, this.hero);
+    
     this.input = new Input();
     this.verticalSpeedConstant = 5;
     this.maxVerticalWidth = 400;
+    
     this.layers = [];
     this.createLayers();
+
+    this.enemies = [];
+    this.enemyTypes = ['Worm'];
+    this.enemyInterval = 500;
+    this.enemyTimer = 0;
   }
 
   createLayers() {
@@ -35,19 +44,46 @@ export default class Game {
     this.layers.push(layer);
   }
 
+  #createEnemies(){
+    let enemyIndex = Math.floor(Math.random() * this.enemyTypes.length);
+    let randomEnemy = this.enemyTypes[enemyIndex];
+    if(randomEnemy == 'Worm'){
+      this.enemies.push(new Worm(this));
+    }
+  }
+
   update(deltaTime) {
     this.hero.update(deltaTime, this.input);
     this.ramp.update(deltaTime);
-
+    if(this.hero.currentState == this.hero.states[1] ||
+      this.hero.currentState == this.hero.states[2]){
+      this.layers.forEach((layer) => {
+        layer.update();        
+      });
+    }
+    
+    if(this.enemyTimer > this.enemyInterval){
+      this.#createEnemies();
+      this.enemyTimer = 0;
+    }
+    else{
+        this.enemyTimer+= deltaTime;
+    }
+    this.enemies.forEach((enemy) => {
+      enemy.update(deltaTime);
+    });
   }
 
-  draw(ctx) {
+  draw(ctx) {   
     this.layers.forEach((layer) => {
-      layer.update();
       layer.draw(ctx);
     });
+   
     this.hero.draw(ctx);
     this.ramp.draw(ctx);
 
+    this.enemies.forEach((enemy) => {
+      enemy.draw(ctx);
+    });
   }
 }
