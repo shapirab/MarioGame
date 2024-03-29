@@ -48,6 +48,14 @@ class Enemy {
       this.frameTimer += deltatime;
     }
   }
+
+  getRandomHeight(minHeight, maxHeight){   
+    return this.getRandomInRange(minHeight, maxHeight);
+  }
+
+  getRandomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 }
 
 export class Worm extends Enemy {
@@ -61,9 +69,12 @@ export class Worm extends Enemy {
     this.height = 60;
     this.maxFrames = 5;
 
+    let maxHeight = this.game.canvasHeight - this.height;
+    let minHeight = this.game.canvasHeight - this.height - 80;
+
     this.position = {
       x: this.game.canvasWidth,
-      y: this.game.canvasHeight - this.height,
+      y: this.getRandomHeight(minHeight, maxHeight)
     };
     this.velocity = {
       x: -0.5,
@@ -83,9 +94,12 @@ export class FlyingEnemy extends Enemy {
     this.height = 44;
     this.maxFrames = 5;
 
+    let minHeight = 50;
+    let maxHeight = this.game.canvasHeight - 200;
+
     this.position = {
       x: this.game.canvasWidth,
-      y: getRandomHeight(),
+      y: this.getRandomHeight(minHeight, maxHeight),
     };
     this.velocity = {
       x: -0.5,
@@ -93,7 +107,7 @@ export class FlyingEnemy extends Enemy {
     };
   }
 
-  getRandomHeight(){
-    
-  }
+ 
+
+  
 }
