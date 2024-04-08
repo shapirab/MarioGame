@@ -105,9 +105,31 @@ export class FlyingEnemy extends Enemy {
       x: -0.5,
       y: 0,
     };
+  }  
+}
+
+export class PlantEnemy extends Enemy {
+  constructor(game){
+    super(game);
+    this.game = game;
+    this.image = enemy_plant;
+    let spriteWidth = 120;
+    let spriteHeight = 87;
+    this.width = spriteWidth / 2;
+    this.height = 87;
+    this.maxFrames = 1;
+
+    let minX = this.game.canvasWidth - this.width;
+    let maxX = this.width;
+    let maxHeight = this.game.canvasHeight - this.height;
+    let minHeight = this.game.canvasHeight - this.height - 80;
+    this.position = {
+      x: this.getRandomHeight(minX, maxX),
+      y: this.getRandomHeight(minHeight, maxHeight)
+    };
+    this.velocity = {
+      x: 0,
+      y: 0
+    };
   }
-
- 
-
-  
 }

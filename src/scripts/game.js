@@ -2,7 +2,7 @@ import Hero from "./models/hero.js";
 import Ramp from "./models/ramp.js";
 import Input from "./input.js";
 import Layer from "./models/layer.js";
-import { FlyingEnemy, Worm } from "./models/enemies.js";
+import { FlyingEnemy, PlantEnemy, Worm } from "./models/enemies.js";
 
 export default class Game {
   constructor(canvasWidth, canvasHeight) {
@@ -20,7 +20,7 @@ export default class Game {
     this.createLayers();
 
     this.enemies = [];
-    this.enemyTypes = ["Worm", "FlyingEnemy"];
+    this.enemyTypes = ["Worm", "FlyingEnemy", "PlantEnemy"];
     this.enemyInterval = 500;
     this.enemyTimer = 0;
   }
@@ -52,6 +52,9 @@ export default class Game {
     } else if (randomEnemy == "FlyingEnemy") {
       this.enemies.push(new FlyingEnemy(this));
     }
+    else if(randomEnemy == "PlantEnemy"){
+      this.enemies.push(new PlantEnemy(this));
+    }
   }
 
   update(deltaTime) {
@@ -61,9 +64,15 @@ export default class Game {
       this.hero.currentState == this.hero.states[1] ||
       this.hero.currentState == this.hero.states[2]
     ) {
-      this.layers.forEach((layer) => {
-        layer.update();
-      });
+        this.layers.forEach((layer) => {
+          layer.update();
+        });
+        this.enemies.forEach((enemy) => {
+          if(enemy instanceof PlantEnemy){
+            console.log('enemy is plant')
+            enemy.velocity.x = -1;
+          }
+        });
     }
 
     if (this.enemyTimer > this.enemyInterval) {
