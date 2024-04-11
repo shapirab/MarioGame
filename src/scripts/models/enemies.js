@@ -12,8 +12,8 @@ class Enemy {
   }
 
   update(deltatime) {
-    this.position.x += this.velocity.x * deltatime;
-    this.position.y += this.velocity.y * deltatime;
+    this.position.x -= this.velocity.x + this.game.speed;
+    this.position.y += this.velocity.y;
 
     //animation
     this.animateEnemy(deltatime);
@@ -77,7 +77,7 @@ export class Worm extends Enemy {
       y: this.getRandomHeight(minHeight, maxHeight)
     };
     this.velocity = {
-      x: -0.5,
+      x: 1 + this.game.speed,
       y: 0,
     };
   }
@@ -95,14 +95,14 @@ export class FlyingEnemy extends Enemy {
     this.maxFrames = 5;
 
     let minHeight = 50;
-    let maxHeight = this.game.canvasHeight - 200;
+    let maxHeight = this.game.canvasHeight * 0.5;
 
     this.position = {
       x: this.game.canvasWidth,
       y: this.getRandomHeight(minHeight, maxHeight),
     };
     this.velocity = {
-      x: -0.5,
+      x: 4 + this.game.speed,
       y: 0,
     };
   }  
@@ -119,12 +119,10 @@ export class PlantEnemy extends Enemy {
     this.height = 87;
     this.maxFrames = 1;
 
-    let minX = this.game.canvasWidth - this.width;
-    let maxX = this.width;
     let maxHeight = this.game.canvasHeight - this.height;
     let minHeight = this.game.canvasHeight - this.height - 80;
     this.position = {
-      x: this.getRandomHeight(minX, maxX),
+      x: this.game.canvasWidth,
       y: this.getRandomHeight(minHeight, maxHeight)
     };
     this.velocity = {

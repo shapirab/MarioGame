@@ -1,79 +1,35 @@
 import Hero from "./models/hero.js";
 import Ramp from "./models/ramp.js";
 import Input from "./input.js";
-import Layer from "./models/layer.js";
 import { FlyingEnemy, PlantEnemy, Worm } from "./models/enemies.js";
+import { Background } from "./models/layer.js";
 
 export default class Game {
   constructor(canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
 
-    this.hero = new Hero(canvasWidth, canvasHeight);
+    this.hero = new Hero(this, canvasWidth, canvasHeight);
     this.ramp = new Ramp(canvasWidth, canvasHeight, this.hero);
 
     this.input = new Input();
     this.verticalSpeedConstant = 5;
     this.maxVerticalWidth = 400;
 
-    this.layers = [];
-    this.createLayers();
-
+    this.background = new Background(this);
     this.enemies = [];
     this.enemyTypes = ["Worm", "FlyingEnemy", "PlantEnemy"];
-    this.enemyInterval = 500;
+    this.enemyInterval = 1000;
     this.enemyTimer = 0;
-  }
 
-  createLayers() {
-    let layerNum = 8;
-    let counter = 1;
-    for (let i = layerNum; i > 0; i--) {
-      this.createLayer(i, counter, layerNum);
-      counter++;
-    }
-  }
-
-  createLayer(layerIdNum, counter, maxLayers) {
-    let layerId = `layer_${layerIdNum}`;
-    let speedBase = 10;
-    let speedFactorBase = 1 / maxLayers;
-    let speedFactor = speedFactorBase * counter;
-    let speed = Math.floor(speedBase * speedFactor);
-    let layer = new Layer(layerId, speed, this.canvasHeight);
-    this.layers.push(layer);
-  }
-
-  #createEnemies() {
-    let enemyIndex = Math.floor(Math.random() * this.enemyTypes.length);
-    let randomEnemy = this.enemyTypes[enemyIndex];
-    if (randomEnemy == "Worm") {
-      this.enemies.push(new Worm(this));
-    } else if (randomEnemy == "FlyingEnemy") {
-      this.enemies.push(new FlyingEnemy(this));
-    }
-    else if(randomEnemy == "PlantEnemy"){
-      this.enemies.push(new PlantEnemy(this));
-    }
+    this.speed = 0;
+    this.maxSpeed = 6;
   }
 
   update(deltaTime) {
+    this.background.update();
     this.hero.update(deltaTime, this.input);
     this.ramp.update(deltaTime);
-    if (
-      this.hero.currentState == this.hero.states[1] ||
-      this.hero.currentState == this.hero.states[2]
-    ) {
-        this.layers.forEach((layer) => {
-          layer.update();
-        });
-        this.enemies.forEach((enemy) => {
-          if(enemy instanceof PlantEnemy){
-            console.log('enemy is plant')
-            enemy.velocity.x = -1;
-          }
-        });
-    }
 
     if (this.enemyTimer > this.enemyInterval) {
       this.#createEnemies();
@@ -87,15 +43,25 @@ export default class Game {
   }
 
   draw(ctx) {
-    this.layers.forEach((layer) => {
-      layer.draw(ctx);
-    });
-
+    this.background.draw(ctx);
     this.hero.draw(ctx);
     this.ramp.draw(ctx);
 
     this.enemies.forEach((enemy) => {
       enemy.draw(ctx);
     });
+  }
+
+  #createEnemies() {
+    let enemyIndex = Math.floor(Math.random() * this.enemyTypes.length);
+    let randomEnemy = this.enemyTypes[enemyIndex];
+    if (randomEnemy == "Worm") {
+      this.enemies.push(new Worm(this));
+    } else if (randomEnemy == "FlyingEnemy") {
+      this.enemies.push(new FlyingEnemy(this));
+    }
+    else if(this.speed > 0 && randomEnemy == "PlantEnemy"){
+      this.enemies.push(new PlantEnemy(this));
+    }
   }
 }

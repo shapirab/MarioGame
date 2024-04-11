@@ -5,9 +5,10 @@ import {
 } from "../state.js";
 
 export default class Hero {
-  constructor(canvasWidth, canvasHeight) {
+  constructor(game, canvasWidth, canvasHeight) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    this.game = game;
 
     //this determains the frequency of changing of frames, thus
     //extablishing the running pace
@@ -98,8 +99,9 @@ export default class Hero {
     }
   }
 
-  setState(state) {
+  setState(state, speed) {
     this.currentState = this.states[state];
+    this.game.speed = speed * this.game.maxSpeed;
     this.currentState.enter();
   }
 

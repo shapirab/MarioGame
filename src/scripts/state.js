@@ -28,10 +28,10 @@ export class RunningRight extends State{
  
     handleInputs(input){
       if(!input.keys.right.pressed){
-         this.player.setState(states.STANDING_RIGHT);
+         this.player.setState(states.STANDING_RIGHT, 0);
       }
       else if(input.keys.up.pressed){
-         this.player.setState(states.JUMP_RIGHT);
+         this.player.setState(states.JUMP_RIGHT, 0);
       }
     }
  }
@@ -52,13 +52,13 @@ export class RunningRight extends State{
 
    handleInputs(input){
       if(input.keys.right.pressed){
-         this.player.setState(states.RUNNING_RIGHT);
+         this.player.setState(states.RUNNING_RIGHT, 1);
       }
       else if(input.keys.left.pressed){
-         this.player.setState(states.STANDING_LEFT);
+         this.player.setState(states.STANDING_LEFT, 0);
       }
       else if(input.keys.up.pressed){
-         this.player.setState(states.JUMP_RIGHT);
+         this.player.setState(states.JUMP_RIGHT, 0);
       }
    }
 }
@@ -78,7 +78,7 @@ export class RunningLeft extends State{
  
     handleInputs(input){
       if(!input.keys.left.pressed){
-         this.player.setState(states.STANDING_LEFT);
+         this.player.setState(states.STANDING_LEFT, 0);
       }
     }
  }
@@ -99,10 +99,10 @@ export class RunningLeft extends State{
 
    handleInputs(input){
       if(input.keys.left.pressed){
-         this.player.setState(states.RUNNING_LEFT);
+         this.player.setState(states.RUNNING_LEFT, -1);
       }
       else if(input.keys.right.pressed){
-         this.player.setState(states.STANDING_RIGHT);
+         this.player.setState(states.STANDING_RIGHT, 0);
       }
    }
 }
@@ -126,7 +126,7 @@ export class RunningLeft extends State{
 
    handleInputs(input){
       if(!input.keys.up.pressed){
-         this.player.setState(states.RUNNING_RIGHT);
+         this.player.setState(states.RUNNING_RIGHT, 1);
       }
    }
 }
