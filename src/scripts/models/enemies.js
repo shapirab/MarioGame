@@ -97,15 +97,24 @@ export class FlyingEnemy extends Enemy {
     let minHeight = 50;
     let maxHeight = this.game.canvasHeight * 0.5;
 
+    this.variableOfAngle = Math.random() * 0.1 + 0.1;
+    this.angle = 0;
+
     this.position = {
-      x: this.game.canvasWidth,
+      x: this.game.canvasWidth + Math.random() * this.game.canvasWidth * 0.5,
       y: this.getRandomHeight(minHeight, maxHeight),
     };
     this.velocity = {
       x: 4 + this.game.speed,
-      y: 0,
+      y: Math.sin(this.angle)
     };
   }  
+
+  update(deltaTime){
+    super.update(deltaTime);
+    this.angle += this.variableOfAngle;
+    this.position.y += Math.sin(this.angle);
+  }
 }
 
 export class PlantEnemy extends Enemy {

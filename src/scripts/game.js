@@ -44,12 +44,13 @@ export default class Game {
 
   draw(ctx) {
     this.background.draw(ctx);
-    this.hero.draw(ctx);
     this.ramp.draw(ctx);
-
+    
     this.enemies.forEach((enemy) => {
       enemy.draw(ctx);
     });
+
+    this.hero.draw(ctx);
   }
 
   #createEnemies() {
@@ -57,7 +58,8 @@ export default class Game {
     let randomEnemy = this.enemyTypes[enemyIndex];
     if (randomEnemy == "Worm") {
       this.enemies.push(new Worm(this));
-    } else if (randomEnemy == "FlyingEnemy") {
+    } 
+    else if (randomEnemy == "FlyingEnemy") {
       this.enemies.push(new FlyingEnemy(this));
     }
     else if(this.speed > 0 && randomEnemy == "PlantEnemy"){
