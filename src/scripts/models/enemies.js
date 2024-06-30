@@ -9,11 +9,16 @@ class Enemy {
     this.framesPerSecond = 20;
     this.frameInterval = 1000 / this.framesPerSecond;
     this.frameTimer = 0;
+    this.markedForDeletion = false;
   }
 
   update(deltatime) {
     this.position.x -= this.velocity.x + this.game.speed;
     this.position.y += this.velocity.y;
+
+    if(this.position.x < 0){
+      this.markedForDeletion = true;
+    }
 
     //animation
     this.animateEnemy(deltatime);
@@ -31,6 +36,9 @@ class Enemy {
       this.width,
       this.height
     );
+    if(this.game.isDebug){
+      ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
+    }
   }
 
   animateEnemy(deltatime) {
@@ -80,6 +88,8 @@ export class Worm extends Enemy {
       x: 1 + this.game.speed,
       y: 0,
     };
+
+    this.ground = this.game.canvasHeight - this.height;
   }
 }
 
@@ -108,6 +118,7 @@ export class FlyingEnemy extends Enemy {
       x: 4 + this.game.speed,
       y: Math.sin(this.angle)
     };
+    this.ground = this.game.canvasHeight - this.height;
   }  
 
   update(deltaTime){
@@ -138,5 +149,6 @@ export class PlantEnemy extends Enemy {
       x: 0,
       y: 0
     };
+    this.ground = this.game.canvasHeight - this.height;
   }
 }

@@ -1,5 +1,6 @@
 export default class Input{
-    constructor(){
+    constructor(game){
+        this.game = game;
         this.keys = {
             right: {
                 pressed: false
@@ -12,7 +13,7 @@ export default class Input{
             },
             down: {
                 pressed: false
-            }
+            }           
         };
 
         window.addEventListener('keydown', (e) => {
@@ -29,6 +30,9 @@ export default class Input{
                 case 'ArrowLeft':
                     this.keys.left.pressed = true;
                     break;
+                case 'd':
+                    console.log('d was pressed')
+                    this.game.isDebug = !this.game.isDebug;
             }
         });
 
@@ -45,7 +49,7 @@ export default class Input{
                     break;
                 case 'ArrowLeft':
                     this.keys.left.pressed = false;
-                    break;
+                    break;               
             }
         });
     }

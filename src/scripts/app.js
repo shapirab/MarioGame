@@ -15,7 +15,9 @@ window.addEventListener('load', () => {
         let deltaTime = timeStamp - lastTime;
             lastTime = timeStamp;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        game.update(deltaTime);
+        if(!game.collision){
+            game.update(deltaTime);
+        }
         game.draw(ctx);
     
     }

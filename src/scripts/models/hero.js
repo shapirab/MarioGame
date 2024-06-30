@@ -1,6 +1,7 @@
 import {
   JumpingRight,
   RunningRight,
+  Slide,
   StandingRight,
 } from "../state.js";
 
@@ -20,24 +21,12 @@ export default class Hero {
     this.maxImages = 8;
     this.imageName = `marioImg_${this.imageCounter}`;
 
-    this.runningRightImages = [];
-    this.runningLeftImages = [];
-    this.standingLeftImages = [];
-    this.standingRightImages = [];
-    this.jumpingRightImages = [];
-
     this.maxStandingImages = 10;
-    this.loadRunningRightImages();
-    this.loadRunningLeftImages();
-    this.loadStandingRightImages();
-    this.loadStandingLeftImages();
-    this.loadJumpingRightImages();
 
-    this.sizeFactor = 2.5;
-    this.width = 641;
-    this.height = 542;
+    this.width = 215;
+    this.height = 225;
 
-    this.ground = this.canvasHeight - this.height / this.sizeFactor;
+    this.ground = this.canvasHeight - this.height;
     this.position = {
       x: 100,
       y: this.ground,
@@ -53,50 +42,16 @@ export default class Hero {
     this.states = [
       new StandingRight(this),
       new RunningRight(this),
-      new JumpingRight(this)
+      new JumpingRight(this),
+      new Slide(this)
     ];
     this.currentState = this.states[0];
     this.currentState.enter();
-  }
 
-  loadRunningRightImages() {
-    for (let i = 1; i <= this.maxImages; i++) {
-      const image = new Image();
-      image.src = `../images/hero/Adventure Girl/png/Run (${i}).png`;
-      this.runningRightImages.push(image);
-    }
-  }
-
-  loadRunningLeftImages() {
-    for (let i = 1; i <= this.maxImages; i++) {
-      const image = new Image();
-      image.src = `../images/hero/Adventure Girl/png/RunLeft(${i}).png`;
-      this.runningLeftImages.push(image);
-    }
-  }
-
-  loadStandingRightImages() {
-    for (let i = 1; i <= this.maxImages; i++) {
-      const image = new Image();
-      image.src = `../images/hero/Adventure Girl/png/Idle (${i}).png`;
-      this.standingRightImages.push(image);
-    }
-  }
-
-  loadStandingLeftImages() {
-    for (let i = 1; i <= this.maxStandingImages; i++) {
-      const image = new Image();
-      image.src = `../images/hero/Adventure Girl/png/IdleLeft(${i}).png`;
-      this.standingLeftImages.push(image);
-    }
-  }
-
-  loadJumpingRightImages() {
-    for (let i = 1; i <= this.maxStandingImages; i++) {
-      const image = new Image();
-      image.src = `../images/hero/Adventure Girl/png/jump (${i}).png`;
-      this.jumpingRightImages.push(image);
-    }
+    this.hatHeightFactor = 0;
+    this.hatYFactor = 0;
+    this.bodyXFactor = 0;
+    this.feetFactor = 0;
   }
 
   setState(state, speed) {
@@ -107,6 +62,17 @@ export default class Hero {
 
   onGround() {
     return this.position.y === this.ground;
+  }
+
+  jump() {
+    this.position.y += this.velocity.y;
+
+    if(!this.onGround()){
+        this.velocity.y += this.gravity;
+    }
+    else{
+        this.velocity.y = 0;
+    }
   }
 
   update(deltaTime, input) {
@@ -127,24 +93,25 @@ export default class Hero {
     this.position.x += this.velocity.x;
   }
 
-  jump() {
-    this.position.y += this.velocity.y;
-
-    if(!this.onGround()){
-        this.velocity.y += this.gravity;
-    }
-    else{
-        this.velocity.y = 0;
-    }
-  }
-
   draw(ctx) {
+    let factor = 0;
     ctx.drawImage(
       this.image,
       this.position.x,
       this.position.y,
-      this.image.width,
-      this.image.height
+      this.width,
+      this.height
     );
+    if(this.game.isDebug){
+      //hat
+      ctx.strokeRect(this.position.x, this.position.y + 50, this.width, this.height - 200);
+      //core
+      ctx.strokeRect(this.position.x + 50, this.position.y, this.width - 100, this.height);
+      //feet
+      ctx.strokeRect(this.position.x, this.position.y + 200, this.width, this.height - 200);
+      // ctx.arc(this.position.x + this.width / 2, this.position.y + this.height / 2, 
+      //   this.width / 2 - factor, 0, 2 *Math.PI, false);
+      // ctx.stroke();
+    }
   }
 }
